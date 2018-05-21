@@ -15,13 +15,23 @@ function activate(context) {
     // The commandId parameter must match the command field in package.json
     let disposable = vscode.commands.registerCommand('extension.sayHello', function () {
         // The code you place here will be executed every time your command is executed
+        let workspace = vscode.workspace;
+        let message;
 
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World!');
+        workspace.findFiles('.vg').then((uri) => {
+            console.log(uri.length)
+            if (uri.length != 0) {
+                message = ".vg file exist"
+            } else {
+                message = ".vg file not exist"
+            }
+            vscode.window.showInformationMessage(message);
+        });
     });
 
     context.subscriptions.push(disposable);
 }
+
 exports.activate = activate;
 
 // this method is called when your extension is deactivated
